@@ -42,7 +42,7 @@ header p{margin:8px 0 0; font-size:17px; text-shadow:0 1px 3px rgba(0,0,0,.35);}
 .doorPanel{
   position:absolute; inset:0; border-radius:12px;
   background-size:cover; background-position:center;
-  border:3px solid rgba(255,255,255,.85);
+  border:3px solid var(--doorBorder, #e8b95c);
   box-shadow:0 3px 10px rgba(0,0,0,.18);
   transition:transform .55s cubic-bezier(.34,1.3,.64,1), box-shadow .55s ease;
   transform-origin:left center;
@@ -117,6 +117,7 @@ const modalContent = document.getElementById('modalContent');
 
 document.getElementById('calIcon').textContent = (META.icon ? META.icon+' ' : '') + META.title;
 document.getElementById('calIcon').style.color = META.titleColor || '#f2c869';
+document.documentElement.style.setProperty('--doorBorder', META.doorBorderColor || '#e8b95c');
 document.getElementById('subtitle').textContent = META.subtitle;
 document.getElementById('subtitle').style.color = META.subtitleColor || '#cfe4d6';
 if(META.bgImage){

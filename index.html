@@ -146,7 +146,7 @@ function render(){
     const d = DOORS.find(x=>x.day===dayNum);
     const el = document.createElement('div');
     const unlocked = isUnlocked(d.day);
-    const isOpen = opened.includes(d.day);
+    const isOpen = unlocked && opened.includes(d.day);
     el.className = 'door' + (unlocked?'':' locked') + (isOpen?' opened':'') + (d.image?'':' placeholder');
     const bgAttr = d.image ? ` style="background-image:url('${d.image}')"` : '';
     el.innerHTML = `<div class="doorPanel"${bgAttr}></div><span class="plaque">${d.day}</span>`;

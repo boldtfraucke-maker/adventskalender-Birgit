@@ -37,31 +37,27 @@ header p{margin:8px 0 0; font-size:17px; text-shadow:0 1px 3px rgba(0,0,0,.35);}
 @media(min-width:700px){
   .grid{ max-width:920px; grid-template-columns:repeat(6, 1fr); gap:20px; }
 }
-.door{ position:relative; aspect-ratio:1/1; perspective:900px; cursor:pointer; }
-.door:active{ transform:scale(.97); }
+.door{ position:relative; aspect-ratio:1/1; perspective:800px; cursor:pointer; }
 .door.locked{ cursor:default; }
-.doorBack, .doorFront{
-  position:absolute; inset:0; border-radius:10px;
+.doorPanel{
+  position:absolute; inset:0; border-radius:12px;
   background-size:cover; background-position:center;
-}
-.doorBack{ box-shadow:inset 0 0 0 2px rgba(255,255,255,.5); }
-.doorFront{
+  border:3px solid rgba(255,255,255,.85);
+  box-shadow:0 3px 10px rgba(0,0,0,.18);
+  transition:transform .55s cubic-bezier(.34,1.3,.64,1), box-shadow .55s ease;
   transform-origin:left center;
-  transition:transform .65s cubic-bezier(.34,1.4,.64,1);
-  box-shadow:2px 2px 10px rgba(0,0,0,.3);
-  border:2px solid rgba(255,255,255,.7);
-  backface-visibility:hidden;
-  z-index:2;
 }
-.door.opened .doorFront{ transform:rotateY(-120deg); }
-.door.placeholder .doorBack, .door.placeholder .doorFront{
-  background-image:none !important; background:linear-gradient(135deg,#ffdca8,#ffb56b);
+.door.opened{ z-index:3; }
+.door.opened .doorPanel{
+  transform:rotateY(-32deg) translateZ(4px);
+  box-shadow:10px 6px 20px rgba(0,0,0,.35);
 }
+.door.placeholder .doorPanel{ background-image:none !important; background:linear-gradient(135deg,#ffdca8,#ffb56b); }
 .plaque{
   position:absolute; top:6px; left:6px; width:32px; height:32px; border-radius:50%;
   background:#fff; color:#a8521f; display:flex; align-items:center; justify-content:center;
   font-weight:bold; font-size:15px; box-shadow:0 1px 5px rgba(0,0,0,.45); border:2px solid #e8b95c;
-  font-family:Georgia,serif;
+  font-family:Georgia,serif; z-index:5; pointer-events:none;
 }
 
 .overlay{
@@ -153,7 +149,7 @@ function render(){
     const isOpen = opened.includes(d.day);
     el.className = 'door' + (unlocked?'':' locked') + (isOpen?' opened':'') + (d.image?'':' placeholder');
     const bgAttr = d.image ? ` style="background-image:url('${d.image}')"` : '';
-    el.innerHTML = `<div class="doorBack"${bgAttr}></div><div class="doorFront"${bgAttr}><span class="plaque">${d.day}</span></div>`;
+    el.innerHTML = `<div class="doorPanel"${bgAttr}></div><span class="plaque">${d.day}</span>`;
     if(unlocked){
       el.addEventListener('click', ()=>{
         if(!isOpen){ markOpened(d.day); el.classList.add('opened'); }
